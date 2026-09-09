@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Link Search Dashboard</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#0b1020;color:#eef2ff}
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px}
+.card{background:#141b31;border:1px solid #2b3555;border-radius:18px;padding:20px;box-shadow:0 12px 40px #0005}
+h1{margin:0 0 8px;font-size:25px}.muted{color:#9aa6c3;font-size:14px}
+.row{display:flex;gap:10px;margin:20px 0}.row input{flex:1}
+input,button{border:0;border-radius:12px;padding:13px;font-size:15px}
+input{background:#0c1327;color:white;border:1px solid #303b5d}
+button{background:#667eea;color:white;font-weight:700;cursor:pointer}
+button.secondary{background:#27314f}
+.result{display:none;margin-top:18px}.item{padding:13px 0;border-bottom:1px solid #29334f}
+.label{color:#9aa6c3;font-size:12px}.value{margin-top:4px;word-break:break-all}
+.warn{margin-top:16px;padding:12px;border-radius:12px;background:#35251b;color:#ffd8b0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>🔎 Link Search Dashboard</h1>
+    <div class="muted">ค้นหารายละเอียดของ URL ที่คุณเป็นเจ้าของ</div>
+
+    <div class="row">
+      <input id="url" placeholder="https://example.com">
+      <button onclick="searchUrl()">ค้นหา</button>
+    </div>
+
+    <div id="result" class="result">
+      <div class="item"><div class="label">URL</div><div id="rurl" class="value"></div></div>
+      <div class="item"><div class="label">Protocol</div><div id="protocol" class="value"></div></div>
+      <div class="item"><div class="label">Domain</div><div id="domain" class="value"></div></div>
+      <div class="item"><div class="label">Username</div><div id="username" class="value">ไม่พบข้อมูล</div></div>
+      <div class="item"><div class="label">Password</div><div class="value">•••••••• (ซ่อนเพื่อความปลอดภัย)</div></div>
+      <div class="warn">
+        ระบบนี้ไม่ดึงหรือเปิดเผยรหัสผ่านจริงจากเว็บไซต์หรือไฟล์บัญชี
+        หากต้องการดูข้อมูลบัญชีของคุณ ให้ใช้หน้าจัดการบัญชี/รีเซ็ตรหัสผ่านของเว็บไซต์โดยตรง
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function searchUrl(){
+  const raw=document.getElementById('url').value.trim();
+  if(!raw){alert('กรุณาวางลิงก์ก่อน');return}
+  let u;
+  try{
+    u=new URL(raw);
+  }catch(e){
+    alert('ลิงก์ไม่ถูกต้อง เช่น https://example.com');
+    return;
+  }
+  document.getElementById('rurl').textContent=u.href;
+  document.getElementById('protocol').textContent=u.protocol.replace(':','').toUpperCase();
+  document.getElementById('domain').textContent=u.hostname;
+  document.getElementById('result').style.display='block';
+}
+</script>
+</body>
+</html>
